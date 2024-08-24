@@ -10,7 +10,7 @@ export class MemberResolver {
 
     @Mutation(() => Member)
     @UsePipes(ValidationPipe)
-    public async signup(@Args("input") input: MemberInput): Promise<Member> {
+    public async signup(@Args('input') input: MemberInput): Promise<Member> {
         try {
             console.log("Mutation: signup");
         console.log("input:", input)
@@ -24,13 +24,13 @@ export class MemberResolver {
         
     }
 
-    @Mutation(() => String)
+    @Mutation(() => Member)
     @UsePipes(ValidationPipe)
-    public async login(@Args("input") input: LoginInput): Promise<string> {
+    public async login(@Args("input") input: LoginInput): Promise<Member> {
         try {
             console.log("Mutation: signup");
         console.log("input:", input)
-        return this.memberService.login();
+        return this.memberService.login(input);
 
         }catch(err) {
             console.log("Error, signup:", err);
