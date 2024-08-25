@@ -58,12 +58,12 @@ const MemberSchema = new Schema({
         type: String,
       },
 
-      memberProperty: {
+      memberProperties: {
         type: Number,
         default: 0,
       },
 
-      memberArticle: {
+      memberArticles: {
         type: Number,
         default: 0,
       },
@@ -98,7 +98,7 @@ const MemberSchema = new Schema({
         default: 0,
       },
 
-      memberRank: {
+      memberRanks: {
         type: Number,
         default: 0,
       },
