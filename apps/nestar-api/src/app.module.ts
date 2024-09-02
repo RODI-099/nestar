@@ -9,6 +9,8 @@ import { ComponentsModule } from './components/components.module';
 import { DatabaseModule } from './database/database.module';
 import { error } from 'console';
 import { T } from './libs/types/common';
+import { PropertyResolver } from './components/property/property.resolver';
+import { PropertyService } from './components/property/property.service';
 
 @Module({
   imports: [
@@ -28,6 +30,6 @@ import { T } from './libs/types/common';
       }
     }), ComponentsModule, DatabaseModule],
   controllers: [AppController],
-  providers: [AppService, AppResolver],
+  providers: [AppService, AppResolver,],
 })
 export class AppModule {}
