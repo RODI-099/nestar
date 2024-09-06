@@ -2,12 +2,11 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsIn, IsInt, IsNotEmpty, IsOptional, Length, Min } from 'class-validator';
 import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
 import { ObjectId } from 'mongoose';
-import { availabeOptions, availablePropertySorts } from '../../config';
+import { availableOptions, availablePropertySorts } from '../../config';
 import { Direction } from '../../enums/common.enum';
-import { rmSync } from 'fs';
 
 @InputType()
-export class PropertysInput {
+export class PropertyInput {
 	@IsNotEmpty()
 	@Field(() => PropertyType)
 	propertyType: PropertyType;
@@ -71,7 +70,7 @@ export class PropertysInput {
 }
 
 @InputType()
-export class PricesRange {
+class PricesRange {
 	@Field(() => Int)
 	start: number;
 
@@ -80,7 +79,7 @@ export class PricesRange {
 }
 
 @InputType()
-export class SquaresRange {
+class SquaresRange {
 	@Field(() => Int)
 	start: number;
 
@@ -88,14 +87,16 @@ export class SquaresRange {
 	end: number;
 }
 
+
 @InputType()
-export class PeriodsRange {
+class PeriodsRange {
 	@Field(() => Date)
 	start: Date;
 
 	@Field(() => Date)
 	end: Date;
 }
+
 
 @InputType()
 class PISearch {
@@ -120,7 +121,7 @@ class PISearch {
 	bedsList?: Number[];
 
 	@IsOptional()
-	@IsIn(availabeOptions, { each: true })
+	@IsIn(availableOptions, { each: true })
 	@Field(() => [String], { nullable: true })
 	options?: string[];
 
@@ -167,43 +168,52 @@ export class PropertiesInquiry {
 	search: PISearch;
 }
 
+
 @InputType()
 class APISearch {
 	@IsOptional()
-	@Field(() => PropertyStatus, { nullable: true })
+	@Field(() => PropertyStatus, {nullable: true })
 	propertyStatus?: PropertyStatus;
 }
 
 @InputType()
 export class AgentsPropertiesInquiry {
+	private _id(_id: any): any {
+		throw new Error('Method not implemented.');
+	}
 	@IsNotEmpty()
 	@Min(1)
 	@Field(() => Int)
 	page: number;
 
 	@IsNotEmpty()
-	@Min(1)
+	@Min (1)
 	@Field(() => Int)
 	limit: number;
 
 	@IsOptional()
-	@Field(() => Direction, { nullable: true })
-	direction: Direction;
+	@IsIn (availablePropertySorts)
+	@Field(() => String, {nullable: true })
+	sort?: string;
+
+	@IsOptional()
+	@Field(() => Direction, {nullable: true })
+	direction?: Direction;
 
 	@IsNotEmpty()
 	@Field(() => APISearch)
 	search: APISearch;
-	sort: string;
 }
 
+
 @InputType()
-class ALPSearch {
+class ALPISearch {
 	@IsOptional()
-	@Field(() => PropertyStatus, { nullable: true })
+	@Field(() => PropertyStatus, { nullable: true }) 
 	propertyStatus?: PropertyStatus;
 
 	@IsOptional()
-	@Field(() => [PropertyLocation], { nullable: true })
+	@Field(() => [PropertyLocation], { nullable: true }) 
 	propertyLocationList?: PropertyLocation[];
 }
 
@@ -220,7 +230,7 @@ export class AllPropertiesInquiry {
 	limit: number;
 
 	@IsOptional()
-	@IsIn(availablePropertySorts)
+	@IsIn (availablePropertySorts)
 	@Field(() => String, { nullable: true })
 	sort?: string;
 
@@ -229,7 +239,7 @@ export class AllPropertiesInquiry {
 	direction?: Direction;
 
 	@IsNotEmpty()
-	@Field(() => APISearch)
-	search: ALPSearch;
+	@Field(() => ALPISearch)
+	search: ALPISearch;
 }
 
