@@ -9,6 +9,7 @@ import { MemberModule } from '../member/member.module';
 import { Property } from '../../libs/dto/property/property';
 import { BoardArticleModule } from '../board-article/board-article.module';
 import { PropertyModule } from '../property/property.module';
+import { PropertyService } from '../property/property.service';
 
 @Module({
 	imports: [

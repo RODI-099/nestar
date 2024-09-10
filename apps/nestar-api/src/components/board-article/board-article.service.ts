@@ -14,7 +14,7 @@ import { BoardArticleStatus } from '../../libs/enums/board-article.enum';
 import { StatisticModifier, T } from '../../libs/types/common';
 import { ViewGroup } from '../../libs/enums/view.enum';
 import { BoardArticleUpdate } from '../../libs/dto/board-article/board-article.update';
-import { lookupMember, shapeIntoMogoObjectId } from '../../libs/config';
+import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
 
 @Injectable()
 export class BoardArticleService {
@@ -91,7 +91,7 @@ export class BoardArticleService {
 				$regex: new RegExp(text, 'i'),
 			};
 		if (input.search?.memberId) {
-			match.memberId = shapeIntoMogoObjectId(input.search.memberId);
+			match.memberId = shapeIntoMongoObjectId(input.search.memberId);
 		}
 		console.log('match:', match);
 

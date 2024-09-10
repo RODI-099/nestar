@@ -3,7 +3,7 @@ import { ObjectId } from 'bson';
 export const availableAgentSorts = ['createdAt', 'updtaedAt', 'memberLikes', 'memberViews', 'memberRank'];
 export const availableMemberSorts = ['createdAt', 'updtaedAt', 'memberLikes', 'memberViews'];
 
-export const availabeOptions = ['propertyBarter', 'propertyRent'];
+export const availableOptions = ['propertyBarter', 'propertyRent'];
 export const availablePropertySorts = [
 	'createdAt',
 	'updatedAt',
@@ -25,7 +25,7 @@ export const getSerialForImage = (filename: string) => {
 	return uuidv4() + ext;
 };
 
-export const shapeIntoMogoObjectId = (target: any) => {
+export const shapeIntoMongoObjectId = (target: any) => {
 	return typeof target === 'string' ? new ObjectId(target) : target;
 };
 

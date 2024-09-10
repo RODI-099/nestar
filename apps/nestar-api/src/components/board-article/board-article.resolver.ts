@@ -11,7 +11,7 @@ import {
 import { AuthMember } from '../auth/decorators/authMember.decorator';
 import { ObjectId } from 'mongoose';
 import { WithoutGuard } from '../auth/guards/without.guard';
-import { shapeIntoMogoObjectId } from '../../libs/config';
+import { shapeIntoMongoObjectId } from '../../libs/config';
 import { BoardArticleUpdate } from '../../libs/dto/board-article/board-article.update';
 import { MemberType } from '../../libs/enums/member.enum';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -38,7 +38,7 @@ export class BoardArticleResolver {
 		@AuthMember('_id') memberId: ObjectId,
 	): Promise<BoardArticle> {
 		console.log('Query: getBoardArticle');
-		const articleId = shapeIntoMogoObjectId(input);
+		const articleId = shapeIntoMongoObjectId(input);
 		return await this.boardArticleService.getBoardArticle(memberId, articleId);
 	}
 
@@ -49,7 +49,7 @@ export class BoardArticleResolver {
 		@AuthMember('_id') memberId: ObjectId,
 	): Promise<BoardArticle> {
 		console.log('Mutation: updateProperty');
-		input._id = shapeIntoMogoObjectId(input._id);
+		input._id = shapeIntoMongoObjectId(input._id);
 		return await this.boardArticleService.updateProperty(memberId, input);
 	}
 
@@ -80,7 +80,7 @@ export class BoardArticleResolver {
 	@Mutation((returns) => BoardArticle)
 	public async updateBoardArticleByAdmin(@Args('input') input: BoardArticleUpdate): Promise<BoardArticle> {
 		console.log('Mutataion: updateBoardArticleByAdmin');
-		input._id = shapeIntoMogoObjectId(input._id);
+		input._id = shapeIntoMongoObjectId(input._id);
 		return await this.boardArticleService.updateBoardArticleByAdmin(input);
 	}
 
@@ -89,7 +89,7 @@ export class BoardArticleResolver {
 	@Mutation((returns) => BoardArticle)
 	public async removeBoardArticleByAdmin(@Args('articleId') input: string): Promise<BoardArticle> {
 		console.log('Mutattion: removeBoardArticleByAdmin');
-		const articleId = shapeIntoMogoObjectId(input);
+		const articleId = shapeIntoMongoObjectId(input);
 		return await this.boardArticleService.removeBoardArticleByAdmin(articleId);
 	}
 }

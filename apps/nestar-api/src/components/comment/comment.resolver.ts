@@ -7,7 +7,7 @@ import { CommentInput, CommentsInquiry } from '../../libs/dto/comment/comment.in
 import { AuthMember } from '../auth/decorators/authMember.decorator';
 import { ObjectId } from 'mongoose';
 import { CommentUpdate } from '../../libs/dto/comment/comment.update';
-import { shapeIntoMogoObjectId } from '../../libs/config';
+import { shapeIntoMongoObjectId } from '../../libs/config';
 import { WithoutGuard } from '../auth/guards/without.guard';
 import { MemberType } from '../../libs/enums/member.enum';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -34,7 +34,7 @@ export class CommentResolver {
 		@AuthMember('_id') memberId: ObjectId,
 	): Promise<Comment> {
 		console.log('Mutation: updateComment');
-		input._id = shapeIntoMogoObjectId(input._id);
+		input._id = shapeIntoMongoObjectId(input._id);
 		return await this.commentService.updateComment(memberId, input);
 	}
 
@@ -45,7 +45,7 @@ export class CommentResolver {
 		@AuthMember('_id') memberId: ObjectId,
 	): Promise<Comments> {
 		console.log('Query: getComments');
-		input.search.commentRefId = shapeIntoMogoObjectId(input.search.commentRefId);
+		input.search.commentRefId = shapeIntoMongoObjectId(input.search.commentRefId);
 		return await this.commentService.getComments(memberId, input);
 	}
 
@@ -55,7 +55,7 @@ export class CommentResolver {
 	@Mutation((returns) => Comment)
 	public async removeCommentByAdmin(@Args('commentId') input: string): Promise<Comment> {
 		console.log('Mutattion: removeCommentByAdmin');
-		const commentId = shapeIntoMogoObjectId(input);
+		const commentId = shapeIntoMongoObjectId(input);
 		return await this.commentService.removeCommentByAdmin(commentId);
 	}
 }
