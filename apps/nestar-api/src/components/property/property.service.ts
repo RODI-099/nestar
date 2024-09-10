@@ -11,7 +11,7 @@ import { ViewGroup } from '../../libs/enums/view.enum';
 import { ViewService } from '../view/view.service';
 import { PropertyUpdate } from '../../libs/dto/property/property.update';
 import * as moment from 'moment';
-import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
+import { lookupMember, shapeIntoMogoObjectId } from '../../libs/config';
 
 @Injectable()
 export class PropertyService {
@@ -73,6 +73,8 @@ export class PropertyService {
 			)
 			.exec();
 	}
+
+
 
 	public async updateProperty(memberId: ObjectId, input: PropertyUpdate): Promise<Property> {
 		let { propertyStatus, soldAt, deleteAt } = input;
@@ -145,7 +147,7 @@ export class PropertyService {
 			text,
 		} = input.search;
 
-		if (memberId) match.memberId = shapeIntoMongoObjectId(memberId);
+		if (memberId) match.memberId = shapeIntoMogoObjectId(memberId);
 		if (locationList) match.propertyLocation = { $in: locationList };
 		if (roomsList) match.propertyRooms = { $in: roomsList };
 		if (bedsList) match.propertyBeds = { $in: bedsList };
@@ -261,5 +263,7 @@ export class PropertyService {
 		return result;
 
 	}
+
+
 
 }

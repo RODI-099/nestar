@@ -1,10 +1,9 @@
 import { ObjectId } from 'bson';
 
-export const availableAgentSorts = ['createdAt', 'updatedAt', 'memberLikes', 'memberViews', 'memberRank'];
-export const availableMemberSorts = ['createdAt', 'updatedAt', 'memberLikes', 'memberViews'];
+export const availableAgentSorts = ['createdAt', 'updtaedAt', 'memberLikes', 'memberViews', 'memberRank'];
+export const availableMemberSorts = ['createdAt', 'updtaedAt', 'memberLikes', 'memberViews'];
 
-export const availableOptions = ['propertyBarter', 'propertyRent'];
-
+export const availabeOptions = ['propertyBarter', 'propertyRent'];
 export const availablePropertySorts = [
 	'createdAt',
 	'updatedAt',
@@ -13,8 +12,10 @@ export const availablePropertySorts = [
 	'propertyRank',
 	'propertyPrice',
 ];
+export const availableBoardArticlesSorts = ['createdAt', 'updatedAt', 'articleLikes', 'articleViews'];
+export const availableCommentSorts = ['createdAt', 'updatedAt'];
 
-// IMAGE CONFIGURATION (config.js)
+/** IMAGE CONFIGURATION  */
 import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path';
 
@@ -24,7 +25,7 @@ export const getSerialForImage = (filename: string) => {
 	return uuidv4() + ext;
 };
 
-export const shapeIntoMongoObjectId = (target: any) => {
+export const shapeIntoMogoObjectId = (target: any) => {
 	return typeof target === 'string' ? new ObjectId(target) : target;
 };
 
