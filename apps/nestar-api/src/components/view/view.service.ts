@@ -7,6 +7,9 @@ import { T } from '../../libs/types/common';
 
 @Injectable()
 export class ViewService {
+    checkLikeExistence(likeInput: { memberId: import("mongoose").Schema.Types.ObjectId; likeRefId: import("mongoose").Schema.Types.ObjectId; likeGroup: import("../../libs/enums/like.enum").LikeGroup; }): any {
+      throw new Error('Method not implemented.');
+    }
     constructor(@InjectModel("View") private readonly viewModel: Model<View>){}
 
     public async recordView(input: ViewInput): Promise<View | null> {
