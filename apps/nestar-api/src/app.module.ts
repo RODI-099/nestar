@@ -11,6 +11,7 @@ import { error } from 'console';
 import { T } from './libs/types/common';
 import { PropertyResolver } from './components/property/property.resolver';
 import { PropertyService } from './components/property/property.service';
+import { SocketModule } from './socket/socket.module';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { PropertyService } from './components/property/property.service';
 
         return graphQLFormattedError;
       }
-    }), ComponentsModule, DatabaseModule],
+    }), ComponentsModule, DatabaseModule, SocketModule],
   controllers: [AppController],
   providers: [AppService, AppResolver,],
 })
