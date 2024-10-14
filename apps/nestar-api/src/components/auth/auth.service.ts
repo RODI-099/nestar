@@ -9,7 +9,7 @@ import { shapeIntoMongoObjectId } from '../../libs/config';
 export class AuthService {
     constructor(private jwtService: JwtService){}
 
-    public async hashPassowrd(memberPassword: string): Promise<string> {
+    public async hashPassword(memberPassword: string): Promise<string> {
         const salt = await bcrypt.genSalt();
         return await bcrypt.hash(memberPassword, salt);
 
