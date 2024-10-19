@@ -10,22 +10,23 @@ import { FollowModule } from '../follow/follow.module';
 import FollowSchema from '../../schemas/Follow.model';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{
-      name: "Member",
-      schema:MemberSchema
-      },
-    ]),
-    MongooseModule.forFeature([{
-        name: "Follow", 
-        schema: FollowSchema
-      },
-    ]),
-     AuthModule,
-     ViewModule,
-     LikeModule,
-  ],
+    imports: [
+      MongooseModule.forFeature([{name: 'Member', schema:MemberSchema}]), 
+      MongooseModule.forFeature([{name: 'Follow', schema:FollowSchema}]), 
+        AuthModule,
+        ViewModule,
+        LikeModule,
+        
+    ],
   providers: [MemberResolver, MemberService],
   exports: [MemberService]
 })
 export class MemberModule {}
+
+/* 
+member.module larda Mongooseni chaqirib schemaning collectionini
+namega beramiz Mgning schemasiga member.schemaning objectning nomini beramiz
+
+providerslarga doim Resolver va servicelarni beramiz
+
+*/
