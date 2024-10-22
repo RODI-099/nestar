@@ -4,6 +4,7 @@ import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/prop
 import { ObjectId } from 'mongoose';
 import { availableOptions, availablePropertySorts } from '../../config';
 import { Direction } from '../../enums/common.enum';
+import { rmSync } from 'fs';
 
 @InputType()
 export class PropertyInput {
@@ -70,7 +71,7 @@ export class PropertyInput {
 }
 
 @InputType()
-class PricesRange {
+export class PricesRange {
 	@Field(() => Int)
 	start: number;
 
@@ -79,7 +80,7 @@ class PricesRange {
 }
 
 @InputType()
-class SquaresRange {
+export class SquaresRange {
 	@Field(() => Int)
 	start: number;
 
@@ -87,16 +88,14 @@ class SquaresRange {
 	end: number;
 }
 
-
 @InputType()
-class PeriodsRange {
+export class PeriodsRange {
 	@Field(() => Date)
 	start: Date;
 
 	@Field(() => Date)
 	end: Date;
 }
-
 
 @InputType()
 class PISearch {
@@ -168,52 +167,47 @@ export class PropertiesInquiry {
 	search: PISearch;
 }
 
-
 @InputType()
 class APISearch {
 	@IsOptional()
-	@Field(() => PropertyStatus, {nullable: true })
+	@Field(() => PropertyStatus, { nullable: true })
 	propertyStatus?: PropertyStatus;
 }
 
 @InputType()
-export class AgentsPropertiesInquiry {
-	private _id(_id: any): any {
-		throw new Error('Method not implemented.');
-	}
+export class AgentPropertiesInquiry {
 	@IsNotEmpty()
 	@Min(1)
 	@Field(() => Int)
 	page: number;
 
 	@IsNotEmpty()
-	@Min (1)
+	@Min(1)
 	@Field(() => Int)
 	limit: number;
 
 	@IsOptional()
-	@IsIn (availablePropertySorts)
-	@Field(() => String, {nullable: true })
+	@IsIn(availablePropertySorts)
+	@Field(() => String, { nullable: true })
 	sort?: string;
 
 	@IsOptional()
-	@Field(() => Direction, {nullable: true })
-	direction?: Direction;
+	@Field(() => Direction, { nullable: true })
+	direction: Direction;
 
 	@IsNotEmpty()
 	@Field(() => APISearch)
 	search: APISearch;
 }
 
-
 @InputType()
-class ALPISearch {
+class ALPSearch {
 	@IsOptional()
-	@Field(() => PropertyStatus, { nullable: true }) 
+	@Field(() => PropertyStatus, { nullable: true })
 	propertyStatus?: PropertyStatus;
 
 	@IsOptional()
-	@Field(() => [PropertyLocation], { nullable: true }) 
+	@Field(() => [PropertyLocation], { nullable: true })
 	propertyLocationList?: PropertyLocation[];
 }
 
@@ -230,7 +224,7 @@ export class AllPropertiesInquiry {
 	limit: number;
 
 	@IsOptional()
-	@IsIn (availablePropertySorts)
+	@IsIn(availablePropertySorts)
 	@Field(() => String, { nullable: true })
 	sort?: string;
 
@@ -239,8 +233,8 @@ export class AllPropertiesInquiry {
 	direction?: Direction;
 
 	@IsNotEmpty()
-	@Field(() => ALPISearch)
-	search: ALPISearch;
+	@Field(() => ALPSearch)
+	search: ALPSearch;
 }
 
 @InputType()
@@ -255,4 +249,3 @@ export class OrdinaryInquiry {
 	@Field(() => Int)
 	limit: number;
 }
-

@@ -4,7 +4,7 @@ import { PropertyModule } from './property.module';
 import { Model, ObjectId } from 'mongoose';
 import { Properties, Property } from '../../libs/dto/property/property';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { AgentsPropertiesInquiry, AllPropertiesInquiry, OrdinaryInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
+import { AgentPropertiesInquiry, AllPropertiesInquiry, OrdinaryInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
 import { MemberService } from '../member/member.service';
 import { PropertyStatus } from '../../libs/enums/property.enum';
 import { StatisticModifier, T } from '../../libs/types/common';
@@ -182,7 +182,7 @@ export class PropertyService {
     }
 
 
-    public async getAgentProperties(memberId: ObjectId , input: AgentsPropertiesInquiry): Promise<Properties> {
+    public async getAgentProperties(memberId: ObjectId , input: AgentPropertiesInquiry): Promise<Properties> {
       const {propertyStatus} = input.search;
       if (propertyStatus === PropertyStatus.DELETE) throw new BadRequestException(Message.NOT_ALLOWED_REQUEST);
 

@@ -11,65 +11,66 @@ import { lookupVisit } from '../../libs/config';
 
 @Injectable()
 export class ViewService {
-    checkLikeExistence(likeInput: { memberId: import("mongoose").Schema.Types.ObjectId; likeRefId: import("mongoose").Schema.Types.ObjectId; likeGroup: import("../../libs/enums/like.enum").LikeGroup; }): any {
-      throw new Error('Method not implemented.');
-    }
-    constructor(@InjectModel("View") private readonly viewModel: Model<View>){}
+	constructor(@InjectModel('View') private readonly viewModel: Model<View>) {}
 
-    public async recordView(input: ViewInput): Promise<View | null> {
-        const viewExist = await this.checkViewExistence(input);
-        if(!viewExist) {
-            console.log("-New View Insert-");
-            return await this.viewModel.create(input);
+	public async recordView(input: ViewInput): Promise<View | null> {
+		const viewExist = await this.checkViewExistence(input);
+		if (!viewExist) {
+			console.log('--- New View Insert');
+			return await this.viewModel.create(input);
+		} else {
+			return null;
+		}
+	}
 
-        } else 
-        return null;
-    }
+	private async checkViewExistence(input: ViewInput): Promise<View> {
+		const { memberId, viewRefId } = input;
+		const search: T = {
+			memberId: memberId,
+			viewRefId: viewRefId,
+		};
+		return await this.viewModel.findOne(search).exec();
+	}
 
-    private async checkViewExistence(input: ViewInput): Promise<View> {
-        const {memberId, viewRefId} = input;
-        const search: T = {memberId: memberId, viewRefId: viewRefId};
-        return await this.viewModel.findOne(search).exec()
-    }
+	public async getVisitedProperties(memberId: ObjectId, input: OrdinaryInquiry): Promise<Properties> {
+		const { page, limit } = input;
+		const match: T = {
+			viewGroup: ViewGroup.PROPERTY,
+			memberId: memberId,
+		};
 
-    public async getVisitedProperties(memberId: ObjectId, input: OrdinaryInquiry): Promise<Properties>{
-		const {page, limit} = input;
-		const match: T = { viewGroup: ViewGroup.PROPERTY, memberId: memberId};
-
-		const data: T = await this.viewModel.aggregate([
-			{$match: match},
-			{$sort: {updatedAt: -1}},
-			{
-				$lookup: {
-					from: "properties",
-					localField: "viewRefId",
-					foreignField: "_id",
-					as: "visitedProperty",
+		const data: T = await this.viewModel
+			.aggregate([
+				{ $match: match },
+				{ $sort: { updatedAt: -1 } },
+				{
+					$lookup: {
+						from: 'properties',
+						localField: 'viewRefId',
+						foreignField: '_id',
+						as: 'visitedProperty',
+					},
 				},
 
-			},
-			{$unwind: "$visitedProperty"},
-			{
-				$facet: {
-					list: [
-						{$skip: (page-1)*limit},
-						{$limit: limit},
-						lookupVisit,
-						{$unwind: "$visitedProperty.memberData"},
-					],
+				{ $unwind: '$visitedProperty' },
+				{
+					$facet: {
+						list: [
+							{ $skip: (page - 1) * limit },
+							{ $limit: limit },
+							lookupVisit,
+							{ $unwind: '$visitedProperty.memberData' },
+						],
+						metaCounter: [{ $count: 'total' }],
+					},
+				},
+			])
+			.exec();
+		console.log('Data:', data);
 
-					metaCounter: [{$count: "total"}],
-				}
-
-
-			}
-		])
-		.exec();
-        console.log("data:", data);
-		const result: Properties = {list: [], metaCounter: data[0].metaCounter};
-		
+		const result: Properties = { list: [], metaCounter: data[0].metaCounter };
+		// console.log('result:', result);
 		result.list = data[0].list.map((ele) => ele.visitedProperty);
-		console.log("result:", result)
-		 return result;
+		return result;
 	}
 }
